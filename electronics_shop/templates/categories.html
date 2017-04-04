@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	<h2>Categories:</h2>
+	<ul>
+	{% for category in categories %}
+		<li><a href="{% url 'category' category_id=category.id%}">{{category.name}}</a></li>	
+		{% empty %}
+			pusto
+	{% endfor %}
+	</ul>
+{% endblock %}
