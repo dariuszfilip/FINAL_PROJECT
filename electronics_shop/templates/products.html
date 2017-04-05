@@ -5,8 +5,11 @@
 	<h2>Products:</h2>
 	<ul>
 	{% for product in products %}
-		<li>{{product.name}}
+		<li>{{product.name}}</li>
+		<li><a href="{% url 'edit-product' pk=product.id %}">Edit Product</a></li>	
+		<li><a href="{% url 'delete-product' pk=product.id %}">Delete</a></li>
 		
 	{% endfor %}
 	</ul>
+	<a href="{% url 'add-product' %}" >Add Product</a>
 {% endblock %}

@@ -22,7 +22,11 @@ class Product(models.Model):
     name = models.CharField(max_length=128)
     descritpion = models.TextField()
     price = models.FloatField()
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, related_name="category")
+    
+    
+    def __str__(self):
+        return "{} {} {}".format(self.name, self.price, self.category)
       
     
 class Order(models.Model):
@@ -31,6 +35,9 @@ class Order(models.Model):
     product = models.ForeignKey(Product)
     quantity = models.IntegerField()
 
+
+    def __str__(self):
+        return "{} {} {}".format(self.title, self.product, self.quantity)
 
 
 

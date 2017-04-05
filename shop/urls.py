@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from electronics_shop.views import ProductView, ProductsView, CategoriesView, CustomersView, CategoryView
+from electronics_shop.views import AddProductView,EditProductView,DeleteProductView, ProductView, ProductsView, CategoriesView, CustomersView, CategoryView, BuyProductView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,4 +24,8 @@ urlpatterns = [
     url(r'^category/(?P<category_id>\d+)', CategoryView.as_view(), name="category"),
     url(r'^customers', CustomersView.as_view(), name="customers"),
     url(r'^product/(?P<product_id>\d+)', ProductView.as_view(), name="product"),
+    url(r'^buy', BuyProductView.as_view(), name="buy-product"),
+    url(r'^edit-product/(?P<pk>\d+)', EditProductView.as_view(), name="edit-product"),
+    url(r'^delete-product/(?P<pk>\d+)', DeleteProductView.as_view(), name="delete-product"),
+    url(r'^add-product', AddProductView.as_view(), name="add-product"),
 ]

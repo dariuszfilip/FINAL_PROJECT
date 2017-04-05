@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Category: {{category}}</h2>
+<h2>Category: {{category.name}}</h2>
 <ul>
 {% for product in products %}
 <li><a href="{% url 'product' product_id=product.id %}">{{product.name}} </a></li>
 {% empty %}
-NO PRODUCTS
+pusto
 {% endfor %}
 
 
 </ul>
+		<a href="{% url 'add-product' %}" >Add Product</a>
+
 {% endblock %}

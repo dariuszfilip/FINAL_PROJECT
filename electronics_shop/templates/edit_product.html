@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<form action="{% url 'edit-product' pk=product.id %}" method="POST">
+	{% csrf_token %}
+	{{form.as_ul}}
+	
+<input type="submit" value="Edit Category">
+
+</form>
+
+
+
+{% endblock %}
