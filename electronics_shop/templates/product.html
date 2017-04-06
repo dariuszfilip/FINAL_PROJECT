@@ -5,12 +5,16 @@
 
 	
 	
-	<h2>Produkt: {{product.name}}</h2>
-  	<h3>Opis: {{product.descritpion}}</h3>
-  	<h3>Cena: {{product.price}}</h3>
-  	<h3>Kategoria {{category.name}} </h3>
+	<h2>Produkt:  {{product.name}}</h2>
+  	<h3>Opis:  {{product.descritpion}}</h3>
+  	<h3>Cena:  {{product.price}}</h3>
+  	<h3>Kategoria:  {{category.name}} </h3>
+  	<br>
+  	<br>
   	
-  	<a href="{% url 'buy-product' product_id=product.id%}">Kup</a>
+  	<h2><a href="{% url 'buy-product' product_id=product.id%}">Kup</a></h2>
+  	<br>
+  	<br>
   	<li><a href="{% url 'edit-product' pk=product.id %}">Edytuj wystawiony produkt</a></li>	
 	<li><a href="{% url 'delete-product' pk=product.id %}">Usuń wystawiony produkt</a></li>
  

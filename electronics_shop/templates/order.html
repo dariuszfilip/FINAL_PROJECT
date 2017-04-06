@@ -3,13 +3,18 @@
 
 {% block content %}
 
-<h2>Zamówienie nr: {{order.id}}</h2>		
-<h2>Tytuł: {{order.title}}</h2>	
-<h2>Produkt: {{order.product.name}}</h2>	
-<h2>Ilośc: {{order.quantity}}</h2>
-<h2>Data: {{order.date}}</h2>
+<h2>Twoje zamówienie:</h2>
 <br>
-<a href="{% url 'delivery' %}">Przejdź do wprowadzenia danych do wysyłki</a>
+
+<h4>Zamówienie nr: {{order.id}}</h4>		
+<h4>Tytuł: {{order.title}}</h4>	
+<h4>Produkt: {{order.product.name}}</h4>	
+<h4>Ilośc: {{order.quantity}}</h4>
+<h4>Data: {{order.date}}</h>
+<br>
+<br>
+<br>
+<h3><a href="{% url 'delivery' %}">Wysyłka i płatność</a></h3>
 <br>
 <br>
 <br>

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<h3>Dziękujemy za zakupy.</h3>
+<br>
+<br>
+
+
+Nazwa użytkownika: {{customer.username}} <br>
+Imię: {{customer.first_name}} <br>
+Nazwisko: {{customer.last_name}} <br>
+Email: {{customer.email}} <br>
+Adres: {{address}}<br>
+Wiadomość: {{message}}<br>
+Płatność: {{payment}}<br>
+<br>
+<br>
+
+
+	
+<a href="{% url 'categories'%}">Przejdź na stronę główną</a>
+  	
+  	
+  	
+{% endblock %}

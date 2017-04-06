@@ -6,26 +6,15 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User   
 from django.contrib.auth.forms import UserCreationForm
 
-# class BuyProductForm(forms.ModelForm):
-#       
-#     class Meta:
-#         model = Order
-#         fields = '__all__'
-
-    
-
 
 class BuyProductForm(forms.Form):    
-#     title = forms.CharField(max_length = 128, label='title', widget=forms.TextInput(attrs={'placeholder': Order.title}))
-#     customer = forms.CharField
-#     product = forms.CharField
-    quantity = forms.IntegerField()
+    quantity = forms.IntegerField(label="Ilość")
 
 
 
 
 class SearchForm(forms.Form):
-    product = forms.CharField(label='produkt', max_length=100)
+    product = forms.CharField(label='nazwa', max_length=100)
     
     
     
@@ -81,13 +70,23 @@ class MyRegistrationForm(UserCreationForm):
         
         
 
+Payment_options = (
+    (1, "card"),
+    (2, "cash"),
+    (3, "bank transfer")  
+)
 
-
+# 
+# Payment_options = {
+#     1: "card",
+#     2: "cash",
+#     3: "bank transfer"  
+# }
 
 class DeliveryProductForm(forms.Form):
     address = forms.CharField(label='Adres wysyłki')
     message = forms.CharField(label='Dodatkowa wiadomość dla sprzedającego', max_length=100)
-
+    payment = forms.ChoiceField(choices=Payment_options)
 
 
 

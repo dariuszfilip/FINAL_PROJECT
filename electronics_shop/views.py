@@ -137,21 +137,22 @@ class DeliveryProductView(LoginRequiredMixin, View):
         if form.is_valid():
             message = form.cleaned_data['message'],
             address = form.cleaned_data['address'],
+            payment = form.cleaned_data['payment'],
             customer = request.user
-#             username = request.user.username
-#             first_name = request.user.first_name
-#             message = form.cleaned_data['message'],
-#             address = customer_address
             
-                
-                
-                
-#              return HttpResponseRedirect('categories')
-          
-          
-        ctx = {'customer':customer,'address': address, 'message':message }
-        return render(request,"delivery.html",ctx) 
+     
+#              return HttpResponseRedirect('categories')        
+        ctx = {'customer':customer,'address': address, 'message':message, 'payment': payment }
+        return render(request,"delivery2.html",ctx) 
         
+ 
+def ordersview(request):    
+    customer = request.user
+    orders=Order.objects.filter(customer=customer)
+    response = HttpResponse()
+    for order in orders:
+        response.write(order.title + "<br/></br>")   
+    return response
 
 
 
@@ -240,7 +241,8 @@ def register_user(request):
     
     
     
-    
+
+
     
 
 
