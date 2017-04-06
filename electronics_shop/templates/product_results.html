@@ -1,0 +1,16 @@
+
+{% extends 'product_search.html' %}
+
+
+{% block results %}
+	<ol>
+	
+		{% for product in results %}
+			
+			<li><a href="{% url 'product' product_id=product.id %}">{{product.name}}</a></li>
+		{% empty %}
+			pusto
+		{% endfor %}	
+	</ol>
+	
+{% endblock %}

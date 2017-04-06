@@ -10,7 +10,7 @@
   	<h3>Price: {{product.price}}</h3>
   	<h3>Category {{category.name}} </h3>
   	
-  	<a href="{% url 'buy-product' %}">Buy</a>
+  	<a href="{% url 'buy-product' product_id=product.id%}">Buy</a>
   	<li><a href="{% url 'edit-product' pk=product.id %}">Edit Product</a></li>	
 	<li><a href="{% url 'delete-product' pk=product.id %}">Delete</a></li>
  

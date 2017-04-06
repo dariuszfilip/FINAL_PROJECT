@@ -3,9 +3,7 @@ from django.urls import reverse
 
 
 
-
 class Customer(models.Model):
-    login = models.CharField(max_length=128)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     address = models.TextField()
@@ -29,15 +27,30 @@ class Product(models.Model):
         return "{} {} {}".format(self.name, self.price, self.category)
       
     
+# class Order(models.Model):
+#     title = models.CharField(max_length = 128)
+#     customer = models.OneToOneField(Customer)
+#     product = models.ForeignKey(Product)
+#     quantity = models.IntegerField()
+# 
+# 
+#     def __str__(self):
+#         return "{} {} {}".format(self.title, self.product, self.quantity)
+
+
+
 class Order(models.Model):
     title = models.CharField(max_length = 128)
-    customer = models.OneToOneField(Customer)
+    customer = models.ForeignKey(Customer)
     product = models.ForeignKey(Product)
     quantity = models.IntegerField()
+    date = models.DateField()
+    realised = models.BooleanField(default=False)
 
 
     def __str__(self):
         return "{} {} {}".format(self.title, self.product, self.quantity)
+    
 
 
 
