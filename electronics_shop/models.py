@@ -1,9 +1,12 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 
 
 class Customer(models.Model):
+    user = models.OneToOneField(User, null=True, default=None)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     address = models.TextField()

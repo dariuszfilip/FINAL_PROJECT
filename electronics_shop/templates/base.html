@@ -11,5 +11,13 @@
         {{current_datetime}} 
         
         
+         {% if user.is_authenticated %}
+			<strong>Zalogowany: </strong>{{user}} (<a href="{% url 'logout' %}">Wyloguj</a>)
+		{% else %}
+			<a href="{% url 'login' %}">Zaloguj</a>
+		{% endif %}
+        
+        
+        
     </body>
 </html>

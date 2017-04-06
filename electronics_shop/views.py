@@ -5,8 +5,13 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from .models import Customer, Category, Product, Order
-from .forms import  SearchForm, BuyProductForm
+from .forms import  SearchForm, BuyProductForm, AuthForm
 from django.template.context_processors import request
+from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User
+
+
 
 
 
@@ -97,68 +102,35 @@ class CategoryView(View):
 #         ctx = {'form':form }
 #         return render(request,"buy_product.html",ctx)    
 #       
-#   
-#       
-#     def post(self,request):
-#         form = BuyProductForm(data=request.POST)
-#         ctx ={'form':form}
-#         if form.is_valid():
-#             quantity = form.cleaned_data['quantity']
-#                
-#             order = Order.objects.create(
-#                 title = "zamówienie",
-#                 customer = Customer.id,
-#                 product = Product.id,
-#                 quantity = quantity)
-#               
-#             return HttpResponseRedirect('products')
-#            
-#         return render(request,"buy_product.html",ctx)
-      
-     
-#         template_name = 'buy_product.html'
-#         form_class = BuyProductForm
-
-
-
-
 
 
 class BuyProductView(View):
-    def get(self,request,product_id):
-        form = BuyProductForm()
-        ctx = {'form':form }
-        return render(request,"buy_product.html",ctx)
-    
- 
-    def post(self,request, product_id):
-        form = BuyProductForm(data=request.POST)
-        product = Product.objects.get(pk = product_id)
-#         customer = Customer.objects.()
-        ctx = {'product':product, 'customer': customer}
-        if form.is_valid():
-            order = Order.objects.create(
-                title = "Zamowienie",
-                customer = customer,
-                product = product,
-                quantity = form.cleaned_data['quantity'],
-                date = '2017-04-05',
-                realised = False   
-                )
-#             return HttpResponseRedirect('products')
-        return render(request,"buy_product.html",ctx)          
+     def get(self,request, product_id):
+         form = BuyProductForm()
+         ctx = {'form':form }
+         return render(request,"buy_product.html",ctx)
+     
   
-
-
-
-
-
-
-
-
-
-
-
+     def post(self, request, product_id):
+         form = BuyProductForm(data=request.POST)
+         product = Product.objects.get(pk = product_id)
+         customer = request.user
+         
+         if form.is_valid():
+             order = Order.objects.create(
+                 title = "Zamowienie",
+                 customer = customer,
+                 product = product,
+                 quantity = form.cleaned_data['quantity'],
+                 date = '2017-04-05',
+                 realised = True   
+                 )
+             return HttpResponseRedirect('products')
+         
+         
+         ctx = {'product':product, 'customer': customer, 'order':order}
+         return render(request,"order.html",ctx)          
+    
 
 
 
@@ -170,19 +142,6 @@ class BuyProductView(View):
 #         ctx = {"order": product}
 #         return render(request, "order.html", ctx)
         
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -225,6 +184,36 @@ class ProductSearchView(View):
             ctx['results'] = products  
             
         return render(request, 'product_results.html', ctx)
+    
+    
+    
+class LoginView(View):   
+    def get(self, request):
+        form = AuthForm()
+        ctx = {'form': form}
+        return render(request, 'login.html', ctx)
+            
+    def post(self, request):
+        form = AuthForm(data=request.POST)
+        ctx ={'form': form}
+        if form.is_valid():
+            user = form.cleaned_data['user']
+            login(request, user)
+            return HttpResponseRedirect(reverse('categories'))      
+        else:
+            return render(request, 'login.html', ctx)
+    
+    
+    
+    
+class LogoutView(LoginRequiredMixin, View):   
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(reverse('login'))
+    
+    
+    
+    
     
     
 
