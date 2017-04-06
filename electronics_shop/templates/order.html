@@ -3,8 +3,11 @@
 
 {% block content %}
 
-	
-<h2>Order: {{order.title}}</h2>	
+<h2>Zamówienie nr: {{order.id}}</h2>		
+<h2>Tytuł: {{order.title}}</h2>	
+<h2>Produkt: {{order.product.name}}</h2>	
+<h2>Ilośc: {{order.quantity}}</h2>
+<h2>Data: {{order.date}}</h2>
 
 
 

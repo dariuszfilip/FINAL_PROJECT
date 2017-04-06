@@ -24,6 +24,7 @@ class Product(models.Model):
     descritpion = models.TextField()
     price = models.FloatField()
     category = models.ForeignKey(Category, related_name="category")
+#     owner = models.ForeignKey(User)
     
     
     def __str__(self):
@@ -44,7 +45,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     title = models.CharField(max_length = 128)
-    customer = models.ForeignKey(Customer)
+    customer = models.ForeignKey(User)
     product = models.ForeignKey(Product)
     quantity = models.IntegerField()
     date = models.DateField()

@@ -10,6 +10,7 @@ from django.template.context_processors import request
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+import datetime
 
 
 
@@ -68,9 +69,7 @@ class CategoryView(View):
 #         form = BuyProductForm()
 #         ctx = {'form':form }
 #         return render(request,"buy_product.html",ctx)    
-#      
-#  
-#      
+    
 #     def post(self,request):
 #         form = BuyProductForm(data=request.POST)
 #         ctx ={'form':form}
@@ -88,20 +87,8 @@ class CategoryView(View):
 #             return HttpResponseRedirect('products')
 #          
 #         return render(request,"buy_product.html",ctx)
-#     
-#     
-# #         template_name = 'buy_product.html'
-# #         form_class = BuyProductForm
 
-
-
-# class BuyProductView(View):
-#  
-#     def get(self,request):
-#         form = BuyProductForm()
-#         ctx = {'form':form }
-#         return render(request,"buy_product.html",ctx)    
-#       
+     
 
 
 class BuyProductView(View):
@@ -118,14 +105,17 @@ class BuyProductView(View):
          
          if form.is_valid():
              order = Order.objects.create(
-                 title = "Zamowienie",
+                 title =
+                 "Id produktu: " + str(product.id) +
+                 " Id klienta: "+ str(customer.id) +
+                 " Data zamówienia: " + str(datetime.datetime.now()),
                  customer = customer,
                  product = product,
                  quantity = form.cleaned_data['quantity'],
-                 date = '2017-04-05',
+                 date = datetime.datetime.now(),
                  realised = True   
                  )
-             return HttpResponseRedirect('products')
+#              return HttpResponseRedirect('categories')
          
          
          ctx = {'product':product, 'customer': customer, 'order':order}
@@ -135,12 +125,35 @@ class BuyProductView(View):
 
 
 
-
-# class OrderView(View):
-#     def get(self, request, order_id):
-#         order = Order.objects.get(pk=order_id)
-#         ctx = {"order": product}
-#         return render(request, "order.html", ctx)
+# class DeliveryProductView(View):
+#      def get(self,request, product_id):
+#          form = DeliveryProductForm()
+#          ctx = {'form':form }
+#          return render(request,"delivery.html",ctx)
+#      
+#   
+#      def post(self, request, product_id):
+#          form = DeliveryProductForm(data=request.POST)
+#          product = Product.objects.get(pk = product_id)
+#          customer = request.user
+#          
+#          if form.is_valid():
+#              address = Customer.objects.get(
+#                  title =
+#                  "Id produktu: " + str(product.id) +
+#                  " Id klienta: "+ str(customer.id) +
+#                  " Data zamówienia: " + str(datetime.datetime.now()),
+#                  customer = customer,
+#                  product = product,
+#                  quantity = form.cleaned_data['quantity'],
+#                  date = datetime.datetime.now(),
+#                  realised = True   
+#                  )
+# #              return HttpResponseRedirect('categories')
+#          
+#          
+#          ctx = {'product':product, 'customer': customer, 'order':order}
+#          return render(request,"order.html",ctx) 
         
 
 
