@@ -85,6 +85,7 @@ class MyRegistrationForm(UserCreationForm):
 
 
 class DeliveryProductForm(forms.Form):
+    address = forms.CharField(label='Adres wysyłki')
     message = forms.CharField(label='Dodatkowa wiadomość dla sprzedającego', max_length=100)
 
 

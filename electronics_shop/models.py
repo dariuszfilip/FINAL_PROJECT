@@ -1,8 +1,14 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
 
+
+# class Profile(AbstractUser):
+#     address = models.TextField(blank=True, null=True)
 
 
 class Customer(models.Model):
@@ -31,17 +37,6 @@ class Product(models.Model):
         return "{} {} {}".format(self.name, self.price, self.category)
       
     
-# class Order(models.Model):
-#     title = models.CharField(max_length = 128)
-#     customer = models.OneToOneField(Customer)
-#     product = models.ForeignKey(Product)
-#     quantity = models.IntegerField()
-# 
-# 
-#     def __str__(self):
-#         return "{} {} {}".format(self.title, self.product, self.quantity)
-
-
 
 class Order(models.Model):
     title = models.CharField(max_length = 128)

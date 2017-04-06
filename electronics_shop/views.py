@@ -15,11 +15,6 @@ from django.contrib import auth
 from django.template.context_processors import csrf
 
                
- 
-
-
-
-
 
 
 class ProductsView(View):
@@ -96,7 +91,7 @@ class CategoryView(View):
      
 
 
-class BuyProductView(View):
+class BuyProductView(LoginRequiredMixin, View):
      def get(self,request, product_id):
          form = BuyProductForm()
          ctx = {'form':form }
@@ -130,7 +125,7 @@ class BuyProductView(View):
 
 
 
-class DeliveryProductView(View):
+class DeliveryProductView(LoginRequiredMixin, View):
      def get(self,request):
          form = DeliveryProductForm()
          ctx = {'form':form }
@@ -138,24 +133,23 @@ class DeliveryProductView(View):
       
    
      def post(self, request):
-        form = DeliveryProductForm(data=request.POST)
-#         product = Product.objects.get(pk = product_id)
-#         customer_address = request.user.email
-        
-        user = User.objects.get(username='Jan')
-        customer_address = user.customer.address
-        
-          
+        form = DeliveryProductForm(data=request.POST)        
         if form.is_valid():
             message = form.cleaned_data['message'],
-            address = customer_address
+            address = form.cleaned_data['address'],
+            customer = request.user
+#             username = request.user.username
+#             first_name = request.user.first_name
+#             message = form.cleaned_data['message'],
+#             address = customer_address
+            
                 
                 
                 
 #              return HttpResponseRedirect('categories')
           
           
-        ctx = {'message':message, 'address': address}
+        ctx = {'customer':customer,'address': address, 'message':message }
         return render(request,"delivery.html",ctx) 
         
 
@@ -163,20 +157,20 @@ class DeliveryProductView(View):
 
 
 
-class EditProductView(UpdateView):
+class EditProductView(LoginRequiredMixin, UpdateView):
     
     template_name = 'edit_product.html'
     model = Product
     fields = '__all__'
     
     
-class DeleteProductView(DeleteView):
+class DeleteProductView(LoginRequiredMixin, DeleteView):
     template_name = 'delete_product.html'
     model = Product
     success_url = reverse_lazy('categories')
         
         
-class AddProductView(CreateView):
+class AddProductView(LoginRequiredMixin, CreateView):
     template_name = 'add_product.html'
     model = Product
     fields = '__all__'
@@ -225,7 +219,7 @@ class LoginView(View):
 class LogoutView(LoginRequiredMixin, View):   
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect(reverse('login'))
+        return HttpResponseRedirect(reverse('categories'))
     
     
     

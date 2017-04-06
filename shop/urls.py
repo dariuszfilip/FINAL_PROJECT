@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login', LoginView.as_view(), name='login'),
     url(r'^logout', LogoutView.as_view(), name='logout'),
-    url(r'^register', register_user),
+    url(r'^register', register_user, name="register"),
     url(r'^products', ProductsView.as_view(), name="products"),
     url(r'^categories', CategoriesView.as_view(), name="categories"),
     url(r'^category/(?P<category_id>\d+)', CategoryView.as_view(), name="category"),

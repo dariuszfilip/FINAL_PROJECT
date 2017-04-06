@@ -5,14 +5,14 @@
 
 	
 	
-	<h2>Product: {{product.name}}</h2>
-  	<h3>Description: {{product.descritpion}}</h3>
-  	<h3>Price: {{product.price}}</h3>
-  	<h3>Category {{category.name}} </h3>
+	<h2>Produkt: {{product.name}}</h2>
+  	<h3>Opis: {{product.descritpion}}</h3>
+  	<h3>Cena: {{product.price}}</h3>
+  	<h3>Kategoria {{category.name}} </h3>
   	
-  	<a href="{% url 'buy-product' product_id=product.id%}">Buy</a>
-  	<li><a href="{% url 'edit-product' pk=product.id %}">Edit Product</a></li>	
-	<li><a href="{% url 'delete-product' pk=product.id %}">Delete</a></li>
+  	<a href="{% url 'buy-product' product_id=product.id%}">Kup</a>
+  	<li><a href="{% url 'edit-product' pk=product.id %}">Edytuj wystawiony produkt</a></li>	
+	<li><a href="{% url 'delete-product' pk=product.id %}">Usuń wystawiony produkt</a></li>
  
  
 {% endblock %}
