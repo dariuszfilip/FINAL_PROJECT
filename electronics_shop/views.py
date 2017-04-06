@@ -4,13 +4,18 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
-from .models import Customer, Category, Product, Order
-from .forms import  SearchForm, BuyProductForm, AuthForm
+from .models import Customer, Category, Product, Order, User
+from .forms import  SearchForm, BuyProductForm, AuthForm, MyRegistrationForm, DeliveryProductForm
 from django.template.context_processors import request
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 import datetime
+from django.contrib import auth  
+from django.template.context_processors import csrf
+
+               
+ 
 
 
 
@@ -125,35 +130,33 @@ class BuyProductView(View):
 
 
 
-# class DeliveryProductView(View):
-#      def get(self,request, product_id):
-#          form = DeliveryProductForm()
-#          ctx = {'form':form }
-#          return render(request,"delivery.html",ctx)
-#      
-#   
-#      def post(self, request, product_id):
-#          form = DeliveryProductForm(data=request.POST)
-#          product = Product.objects.get(pk = product_id)
-#          customer = request.user
-#          
-#          if form.is_valid():
-#              address = Customer.objects.get(
-#                  title =
-#                  "Id produktu: " + str(product.id) +
-#                  " Id klienta: "+ str(customer.id) +
-#                  " Data zamówienia: " + str(datetime.datetime.now()),
-#                  customer = customer,
-#                  product = product,
-#                  quantity = form.cleaned_data['quantity'],
-#                  date = datetime.datetime.now(),
-#                  realised = True   
-#                  )
-# #              return HttpResponseRedirect('categories')
-#          
-#          
-#          ctx = {'product':product, 'customer': customer, 'order':order}
-#          return render(request,"order.html",ctx) 
+class DeliveryProductView(View):
+     def get(self,request):
+         form = DeliveryProductForm()
+         ctx = {'form':form }
+         return render(request,"delivery.html",ctx)
+      
+   
+     def post(self, request):
+        form = DeliveryProductForm(data=request.POST)
+#         product = Product.objects.get(pk = product_id)
+#         customer_address = request.user.email
+        
+        user = User.objects.get(username='Jan')
+        customer_address = user.customer.address
+        
+          
+        if form.is_valid():
+            message = form.cleaned_data['message'],
+            address = customer_address
+                
+                
+                
+#              return HttpResponseRedirect('categories')
+          
+          
+        ctx = {'message':message, 'address': address}
+        return render(request,"delivery.html",ctx) 
         
 
 
@@ -223,6 +226,22 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse('login'))
+    
+    
+    
+    
+    
+def register_user(request):
+    if request.method == 'POST':
+        form = MyRegistrationForm(request.POST)     # create form object
+        if form.is_valid():
+            form.save()
+#             return HttpResponseRedirect('/accounts/register_success')
+    args = {}
+    args.update(csrf(request))
+    args['form'] = MyRegistrationForm()
+    print (args)
+    return render(request, 'register.html', args)
     
     
     

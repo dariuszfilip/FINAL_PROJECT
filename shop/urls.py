@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from electronics_shop.views import BuyProductView, LoginView, LogoutView, AddProductView,EditProductView,DeleteProductView, ProductView, ProductsView, CategoriesView, CustomersView, CategoryView,  ProductSearchView
+from electronics_shop.views import register_user, DeliveryProductView, BuyProductView, LoginView, LogoutView, AddProductView,EditProductView,DeleteProductView, ProductView, ProductsView, CategoriesView, CustomersView, CategoryView,  ProductSearchView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login', LoginView.as_view(), name='login'),
     url(r'^logout', LogoutView.as_view(), name='logout'),
+    url(r'^register', register_user),
     url(r'^products', ProductsView.as_view(), name="products"),
     url(r'^categories', CategoriesView.as_view(), name="categories"),
     url(r'^category/(?P<category_id>\d+)', CategoryView.as_view(), name="category"),
@@ -32,4 +33,5 @@ urlpatterns = [
     url(r'^add-product', AddProductView.as_view(), name="add-product"),
     url(r'^product-search', ProductSearchView.as_view(), name='product-search'),
     url(r'^order', BuyProductView.as_view(), name="order"),
+    url(r'^delivery', DeliveryProductView.as_view(), name="delivery"),
 ]

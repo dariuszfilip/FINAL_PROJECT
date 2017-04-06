@@ -3,9 +3,10 @@ from django.contrib import admin
 from .models import Customer, Product, Category, Order
 
 
+
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ["first_name", "last_name"]
+    list_display = ["first_name", "last_name", 'address']
 
     
     
