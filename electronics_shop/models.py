@@ -17,11 +17,18 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=128)
     address = models.TextField()
     tel = models.CharField(max_length=32)
+    
+    
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
 
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField()
+    
+    def __str__(self):
+        return "{}".format(self.name)
 
     
 

@@ -1,17 +1,16 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from .models import Customer, Category, Product, Order, User
 from .forms import  SearchForm, BuyProductForm, AuthForm, MyRegistrationForm, DeliveryProductForm
 from django.template.context_processors import request
+from django.contrib import auth
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 import datetime
-from django.contrib import auth  
 from django.template.context_processors import csrf
 
                
@@ -59,36 +58,6 @@ class CategoryView(View):
         ctx = {'category':category,
                'products':products}
         return render(request,"category.html",ctx)
-    
-    
-    
-    
-# class BuyProductView(View):
-# 
-#     def get(self,request):
-#         form = BuyProductForm()
-#         ctx = {'form':form }
-#         return render(request,"buy_product.html",ctx)    
-    
-#     def post(self,request):
-#         form = BuyProductForm(data=request.POST)
-#         ctx ={'form':form}
-#         if form.is_valid():
-#             title = form.cleaned_data['title']
-#             customer = form.cleaned_data['customer']
-#             product = form.cleaned_data['product']
-#             quantity = form.cleaned_data['quantity']
-#              
-#             order= Order.objects.create(
-#                 title = title,
-#                 customer = customer,
-#                 product = product,
-#                 quantity = quantity)
-#             return HttpResponseRedirect('products')
-#          
-#         return render(request,"buy_product.html",ctx)
-
-     
 
 
 class BuyProductView(LoginRequiredMixin, View):
@@ -151,21 +120,33 @@ def ordersview(request):
     orders=Order.objects.filter(customer=customer)
     response = HttpResponse()
     for order in orders:
-        response.write(order.title + "<br/></br>")   
+        response.write("Tytuł zamówienia:  " + order.title + "<br/><br/>")  
+        response.write("<a href = 'http://127.0.0.1:8000/delete-order' pk=order.id>Usuń zamówienie</a><br><br>")
     return response
 
 
+class DeleteOrderView(LoginRequiredMixin, DeleteView):
+
+    template_name = 'delete_order.html'
+    model = Order
+    success_url = reverse_lazy('categories')
 
 
 
-class EditProductView(LoginRequiredMixin, UpdateView):
+
+
+class EditProductView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     
+    permission_required = ['electronics_shop.change_product']
+    raise_exception = True
     template_name = 'edit_product.html'
     model = Product
     fields = '__all__'
     
     
-class DeleteProductView(LoginRequiredMixin, DeleteView):
+class DeleteProductView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = ['electronics_shop.delete_product']
+    raise_exception = True
     template_name = 'delete_product.html'
     model = Product
     success_url = reverse_lazy('categories')
@@ -191,7 +172,7 @@ class ProductSearchView(View):
         ctx = {"form": form}
         if form.is_valid():
             name = form.cleaned_data['product']
-            products = Product.objects.filter(name=name)
+            products = Product.objects.filter(name__icontains=name)
             ctx['results'] = products  
             
         return render(request, 'product_results.html', ctx)
@@ -228,23 +209,16 @@ class LogoutView(LoginRequiredMixin, View):
     
 def register_user(request):
     if request.method == 'POST':
-        form = MyRegistrationForm(request.POST)     # create form object
+        form = MyRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-#             return HttpResponseRedirect('/accounts/register_success')
+
     args = {}
     args.update(csrf(request))
     args['form'] = MyRegistrationForm()
     print (args)
     return render(request, 'register.html', args)
     
-    
-    
-    
-
-
-    
-
 
 
 

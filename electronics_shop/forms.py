@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class BuyProductForm(forms.Form):    
-    quantity = forms.IntegerField(label="Ilość")
+    quantity = forms.IntegerField(label="Ilość", min_value=1)
 
 
 
@@ -25,11 +25,8 @@ class AuthForm(forms.Form):
     
     
     
-    def clean(self):
-        #metoda dorzuca do cleaned_data instację użytkownika pod kluczem 'user'
-        
+    def clean(self):        
             cleaned_data = super().clean()          
-            #przeniesione z views:
             login = cleaned_data['login']
             password = cleaned_data['password']
             user = authenticate(username=login, password=password)
@@ -76,12 +73,7 @@ Payment_options = (
     (3, "bank transfer")  
 )
 
-# 
-# Payment_options = {
-#     1: "card",
-#     2: "cash",
-#     3: "bank transfer"  
-# }
+
 
 class DeliveryProductForm(forms.Form):
     address = forms.CharField(label='Adres wysyłki')
